@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name : secu_update2
+  hosts: all
   become: yes
 
   tasks:
