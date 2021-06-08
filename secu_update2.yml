@@ -18,7 +18,7 @@
         - name: liste des MAJ
           debug: var=liste_MAJ_deb10
 
-        - copy: content="{{ liste_MAJ_deb10.stdout_lines | join('\n') }}" dest=/etc/apt/security_updt_historique.json
+        - copy: content="{{ liste_MAJ_deb10.stdout | join('\n') }}" dest=/etc/apt/security_updt_historique.json
       when: (ansible_distribution == "Debian" ) and (ansible_distribution_major_version == "10")
     
     - name: Maj de sécurité debian9
@@ -30,5 +30,5 @@
         - name: liste des MAJ
           debug: var=liste_MAJ_deb9
 
-        - copy: content="{{ liste_MAJ_deb9.stdout_lines | join('\n') }}" dest=/etc/apt/security_updt_historique.json
+        - copy: content="{{ liste_MAJ_deb9.stdout | join('\n') }}" dest=/etc/apt/security_updt_historique.json
       when: (ansible_distribution == "Debian" ) and (ansible_distribution_major_version == "9")
