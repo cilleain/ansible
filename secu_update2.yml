@@ -1,0 +1,33 @@
+---
+- hosts: debian
+  become: yes
+
+  tasks:
+    - name: Mise à jour debsecan
+      apt:
+        name: debsecan
+        state: latest
+        
+    - name: Maj de sécurité debian10
+      block:
+        - name: installation MAJ de sécurité
+          shell: apt install $(debsecan --suite buster --only-fixed --format packages) -y
+          register: liste_MAJ_deb10
+
+        - name: liste des MAJ
+          debug: var=liste_MAJ_deb10
+
+        - copy: content="{{ liste_MAJ_deb10.stdout_lines | join('\n') }}" dest=/etc/apt/security_updt_historique.json
+      when: (ansible_distribution == "Debian" ) and (ansible_distribution_major_version == "10")
+    
+    - name: Maj de sécurité debian9
+      block:
+        - name: installation MAJ de sécurité
+          shell: apt install $(debsecan --suite stretch --only-fixed --format packages) -y
+          register: liste_MAJ_deb9
+
+        - name: liste des MAJ
+          debug: var=liste_MAJ_deb9
+
+        - copy: content="{{ liste_MAJ_deb9.stdout_lines | join('\n') }}" dest=/etc/apt/security_updt_historique.json
+      when: (ansible_distribution == "Debian" ) and (ansible_distribution_major_version == "9")
