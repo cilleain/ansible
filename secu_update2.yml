@@ -1,6 +1,6 @@
 ---
 - name : secu_update2
-  hosts: 172.17.156.2
+  hosts: all
   become: yes
 
   tasks:
